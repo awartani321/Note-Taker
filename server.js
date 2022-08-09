@@ -30,6 +30,16 @@ app.get('/api/notes', function (req, res) {
     res.json(data);
 });
 
+app.post('/api/notes', function (req, res) {
+    let rawdata = fs.readFileSync(JSON_PATH);
+    const data = JSON.parse(rawdata);
+    data.push(req.body);
+
+    fs.writeFileSync(JSON_PATH, JSON.stringify(data));
+
+    res.json(req.body);
+});
+
 // set port number
 const PORT = process.env.PORT || 3000;
 
