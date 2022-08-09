@@ -30,6 +30,7 @@ app.get('/api/notes', function (req, res) {
     res.json(data);
 });
 
+// add note to json
 app.post('/api/notes', function (req, res) {
     let rawdata = fs.readFileSync(JSON_PATH);
     const data = JSON.parse(rawdata);
@@ -39,6 +40,21 @@ app.post('/api/notes', function (req, res) {
 
     res.json(req.body);
 });
+
+
+// delete note from json
+app.delete('/api/notes/:id', function (req, res) {
+    let rawdata = fs.readFileSync(JSON_PATH);
+    const data = JSON.parse(rawdata);
+
+    const idx = req.params.id - 1;
+    data.splice(idx, 1);
+
+    fs.writeFileSync(JSON_PATH, JSON.stringify(data));
+
+    res.json(req.body);
+});
+
 
 // set port number
 const PORT = process.env.PORT || 3000;
